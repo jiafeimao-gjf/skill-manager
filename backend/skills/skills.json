@@ -1,0 +1,487 @@
+[
+  {
+    "id": 1,
+    "name": "skill-creator",
+    "description": "Guide for creating effective skills",
+    "category": "development",
+    "enabled": true
+  },
+  {
+    "id": 2,
+    "name": "python-usage",
+    "description": "Python standard library guide",
+    "category": "development",
+    "enabled": true
+  },
+  {
+    "id": 3,
+    "name": "webapp-testing",
+    "description": "Web application testing guide",
+    "category": "testing",
+    "enabled": false
+  },
+  {
+    "id": 4,
+    "name": "Agent Browser",
+    "description": "A fast Rust-based headless browser automation CLI with Node.js fallback that enables AI agents to navigate, click, type, and snapshot pages via structured commands.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/agent-browser"
+  },
+  {
+    "id": 5,
+    "name": "baoyu-image-cards",
+    "description": "Y---",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/baoyu-image-cards"
+  },
+  {
+    "id": 6,
+    "name": "image-text-posting",
+    "description": "创建图文分享（9张图内），PlantUML配图+简洁文字，适合公众号/朋友圈/微博。主题示例：如何快速学会使用AI辅助自己的工作。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/image-text-posting"
+  },
+  {
+    "id": 7,
+    "name": "tavily",
+    "description": "AI-optimized web search via Tavily API. Returns concise, relevant results for AI agents.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/tavily-search"
+  },
+  {
+    "id": 8,
+    "name": "ollama-t2i",
+    "description": "本地 Ollama 文生图工具。使用 x/z-image-turbo 模型生成图片，分辨率 1024x1024，每张图约耗时 90 秒，超时 300 秒。当用户说\"生成图片\"、\"文生图\"、\"画一张图\"、或提交中文提示词生成图像时使用。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/ollama-t2i"
+  },
+  {
+    "id": 9,
+    "name": "remotion-best-practices",
+    "description": "Best practices for Remotion - Video creation in React",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/remotion-best-practices"
+  },
+  {
+    "id": 10,
+    "name": "self-improvement",
+    "description": "Captures learnings, errors, and corrections to enable continuous improvement. Use when: (1) A command or operation fails unexpectedly, (2) User corrects Claude ('No, that's wrong...', 'Actually...'), (3) User requests a capability that doesn't exist, (4) An external API or tool fails, (5) Claude realizes its knowledge is outdated or incorrect, (6) A better approach is discovered for a recurring task. Also review learnings before major tasks.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/self-improving-agent"
+  },
+  {
+    "id": 11,
+    "name": "speak",
+    "description": "使用 Qwen3-TTS（mlx-audio）在 Mac 本地生成语音并播放。当用户说\"说话\"、\"说出来\"、\"读出来\"、\"speak\"、\"say\"时触发。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/speak"
+  },
+  {
+    "id": 12,
+    "name": "theme-factory",
+    "description": "Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/theme-factory"
+  },
+  {
+    "id": 13,
+    "name": "baoyu-xhs-images",
+    "description": "[Deprecated: use baoyu-image-cards] Generates Xiaohongshu (Little Red Book) image card series with 12 visual styles, 8 layouts, and 3 color palettes. Breaks content into 1-10 cartoon-style image cards optimized for XHS engagement. Use when user mentions \"小红书图片\", \"XHS images\", \"RedNote infographics\", \"小红书种草\", \"小绿书\", \"微信图文\", \"微信贴图\", or wants social media infographic series for Chinese platforms.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/baoyu-xhs-images"
+  },
+  {
+    "id": 14,
+    "name": "opencli-skill",
+    "description": "opencli（Make any website your CLI）技能集成的核心工具集。用于对任意网站进行 AI 驱动的一键 CLI 化。支持：网站探测（explore）、CLI 自动生成（synthesize）、浏览器操作（operate）、多平台 CLI 注册（50+ 平台）。当用户提到\"让某个网站变成 CLI\"、\"命令行操作网站\"、\"opencli\"时触发。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/opencli-skill"
+  },
+  {
+    "id": 15,
+    "name": "ppt-generator",
+    "description": "将用户讲稿一键生成乔布斯风极简科技感竖屏HTML演示稿。当用户需要生成PPT、演示文稿、Slides、幻灯片，或要求科技风/极简风/乔布斯风格的演示时触发此技能。输出为单个可直接运行的HTML文件。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/ppt-generator"
+  },
+  {
+    "id": 16,
+    "name": "video-generator",
+    "description": "使用 Python PIL + FFmpeg 生成 MP4 视频（Remotion 风格动画）。适用场景：标题动画、多图轮播、字幕视频、片头片尾、文章转视频。当用户说\"生成视频\"、\"做个视频\"、\"视频自动化\"、\"把文章做成视频\"时使用。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/video-generator"
+  },
+  {
+    "id": 17,
+    "name": "doc-coauthoring",
+    "description": "Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content. This workflow helps users efficiently transfer context, refine content through iteration, and verify the doc works for readers. Trigger when user mentions writing docs, creating proposals, drafting specs, or similar documentation tasks.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/doc-coauthoring"
+  },
+  {
+    "id": 18,
+    "name": "math-function-plot",
+    "description": "用 matplotlib 绘制数学函数图像（2D/参数方程/3D/热力图/对数坐标/导数叠加），CLI 一行出 PNG。脚本早就在 scripts/plot.py，本技能是它的用法与风格指南。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/math-function-plot"
+  },
+  {
+    "id": 19,
+    "name": "video-podcast-maker",
+    "description": "Use when user provides a topic and wants an automated video podcast created, OR when user wants to learn/analyze video design patterns from reference videos — handles research, script writing, TTS audio synthesis, Remotion video creation, and final MP4 output with background music. Also supports design learning from reference videos (learn command), style profile management, and design reference library. Supports Bilibili, YouTube, Xiaohongshu, Douyin, and WeChat Channels platforms with independ",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/video-podcast-maker"
+  },
+  {
+    "id": 20,
+    "name": "md-article-writer",
+    "description": "# MD 文章渲染器 - Skill",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/md-article-writer"
+  },
+  {
+    "id": 21,
+    "name": "ollama-image",
+    "description": "---",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/ollama-image"
+  },
+  {
+    "id": 22,
+    "name": "image-stitch",
+    "description": "将多张图片垂直或水平拼接为一张。当用户要求\"拼接图片\"、\"合并图片\"、\"把图拼在一起\"、\"图片横拼/竖拼\"时使用。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/image-stitch"
+  },
+  {
+    "id": 23,
+    "name": "baoyu-post-to-wechat",
+    "description": "Posts content to WeChat Official Account (微信公众号) via API or Chrome CDP. Supports article posting (文章) with HTML, markdown, or plain text input, and image-text posting (贴图, formerly 图文) with multiple images. Markdown article workflows default to converting ordinary external links into bottom citations for WeChat-friendly output. Use when user mentions \"发布公众号\", \"post to wechat\", \"微信公众号\", or \"贴图/图文/文章\".",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/baoyu-post-to-wechat"
+  },
+  {
+    "id": 24,
+    "name": "xlsx",
+    "description": "Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like \"the xlsx in my",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/xlsx"
+  },
+  {
+    "id": 25,
+    "name": "summarize",
+    "description": "Summarize URLs or files with the summarize CLI (web, PDFs, images, audio, YouTube).",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/summarize"
+  },
+  {
+    "id": 26,
+    "name": "Code",
+    "description": "Coding workflow with planning, implementation, verification, and testing for clean software development.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/code"
+  },
+  {
+    "id": 27,
+    "name": "pdf",
+    "description": "Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/pdf"
+  },
+  {
+    "id": 28,
+    "name": "find-skills",
+    "description": "Helps users discover and install agent skills when they ask questions like \"how do I do X\", \"find a skill for X\", \"is there a skill that can...\", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/find-skills"
+  },
+  {
+    "id": 29,
+    "name": "chat-recap",
+    "description": "会话末/触发把新问题/偏好/决策追加 MEMORY.md。区别 self-improving（技术），偏个人助手记忆。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/chat-recap"
+  },
+  {
+    "id": 30,
+    "name": "kami",
+    "description": "Typeset professional documents and product landing pages: resumes, one-pagers, white papers, letters, portfolios, slide decks, landing pages. Warm parchment, ink-blue accent, serif-led hierarchy. CN uses TsangerJinKai02, EN uses Charter, JA uses YuMincho (best-effort). Triggers on \"做 PDF / 排版 / 一页纸 / 白皮书 / 作品集 / 简历 / PPT / slides / 落地页 / 官网 / landing page / product page\", or \"build me a resume / make a one-pager / design a slide deck / turn this into a PDF / make this presentable / create a land",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/kami"
+  },
+  {
+    "id": 31,
+    "name": "algorithmic-art",
+    "description": "Creating algorithmic art using p5.js with seeded randomness and interactive parameter exploration. Use this when users request creating art using code, generative art, algorithmic art, flow fields, or particle systems. Create original algorithmic art rather than copying existing artists' work to avoid copyright violations.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/algorithmic-art"
+  },
+  {
+    "id": 32,
+    "name": "ollama-vision",
+    "description": "本地 Ollama 图片理解工具。使用 qwen3-vl:4b 视觉模型分析图片内容。当用户发送图片并要求\"理解图片\"、\"分析图片\"、\"图片说了什么\"、\"描述这张图\"时使用。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/ollama-vision"
+  },
+  {
+    "id": 33,
+    "name": "delegation",
+    "description": "Architecture-first workflow for delegating complex projects to AI coding agents. Ensures code fits the system before it's written.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/delegation"
+  },
+  {
+    "id": 34,
+    "name": "presentation-auto-speech",
+    "description": "# Presentation Auto-play + Speech Narration Skill",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/presentation-auto-speech"
+  },
+  {
+    "id": 35,
+    "name": "skill-download",
+    "description": "从 Convex 技能市场下载技能包。当用户提到「下载技能」、「安装技能」、「download skill」或提供 skill_mame 时触发此技能。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/skill-download"
+  },
+  {
+    "id": 36,
+    "name": "save-image",
+    "description": "将用户发送的图片保存到工作区目录。当用户发送图片并要求\"保存到工作区\"、\"保存到本地\"、\"保存图片\"时使用。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/save-image"
+  },
+  {
+    "id": 37,
+    "name": "internal-comms",
+    "description": "A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/internal-comms"
+  },
+  {
+    "id": 38,
+    "name": "canvas-design",
+    "description": "Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/canvas-design"
+  },
+  {
+    "id": 39,
+    "name": "plantuml-render",
+    "description": "Render PlantUML diagrams using the PlantUML JAR. Use this skill to generate PNG/SVG/PDF images from PlantUML source code.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/plantuml-render"
+  },
+  {
+    "id": 40,
+    "name": "desktop-control",
+    "description": "Advanced desktop automation with mouse, keyboard, and screen control",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/desktop-control"
+  },
+  {
+    "id": 41,
+    "name": "pptx",
+    "description": "Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions \"deck,\" \"slid",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/pptx"
+  },
+  {
+    "id": 42,
+    "name": "wechat-article-tracker",
+    "description": "# wechat-article-tracker",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/wechat-article-tracker"
+  },
+  {
+    "id": 43,
+    "name": "html-screenshot",
+    "description": "使用 HTML + CSS 创建图片，通过 agent-browser 截图。支持渐变、动画、复杂排版，比 PlantUML 更灵活的图片生成方式。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/html-screenshot"
+  },
+  {
+    "id": 44,
+    "name": "local-devsite-fetch",
+    "description": "name: local-devsite-fetch",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/local-devsite-fetch"
+  },
+  {
+    "id": 45,
+    "name": "content-philosophy-tech",
+    "description": "# content-philosophy-tech",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/content-philosophy-tech"
+  },
+  {
+    "id": 46,
+    "name": "tts",
+    "description": "将文字转换为语音并自动播放。当用户说\"文字转语音\"、\"语音播放\"、\"读出来\"、\"tts\"、\"text to speech\"时使用。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/tts"
+  },
+  {
+    "id": 47,
+    "name": "slack-gif-creator",
+    "description": "Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like \"make me a GIF of X doing Y for Slack.\"",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/slack-gif-creator"
+  },
+  {
+    "id": 48,
+    "name": "memory-lancedb-hybrid",
+    "description": "LanceDB long-term memory plugin with BM25 + vector hybrid search (RRF or linear reranking).",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/memory-lancedb-hybrid"
+  },
+  {
+    "id": 49,
+    "name": "jiafeiblog-hexo-publish",
+    "description": "Hexo 博客文章创建与部署流程。用于用户要求\"写博客\"、\"hexo 发文\"、\"发布文章到博客\"时使用。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/jiafeiblog-hexo-publish"
+  },
+  {
+    "id": 50,
+    "name": "Coding",
+    "description": "Coding style memory that adapts to your preferences, conventions, and patterns for consistent coding.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/coding"
+  },
+  {
+    "id": 51,
+    "name": "frontend-design",
+    "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/frontend-design"
+  },
+  {
+    "id": 52,
+    "name": "work-evaluation",
+    "description": "# Work Evaluation Skill（工作能力评估）",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/work-evaluation"
+  },
+  {
+    "id": 53,
+    "name": "math-illustration-helper",
+    "description": "数学文章配图助手：生成函数图像、几何图、统计图的代码片段与风格指南。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/math-illustration-helper"
+  },
+  {
+    "id": 54,
+    "name": "vibe-dev",
+    "description": "AI 辅助软件开发流程（Vibe Coding）。当用户提到\"写代码\"、\"开发项目\"、\"AI 编程\"、\"vibe coding\"、\" Cursor\"、\"Copilot\"、\"代码生成\"时使用。",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/vibe-dev"
+  },
+  {
+    "id": 55,
+    "name": "mcp-builder",
+    "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/mcp-builder"
+  },
+  {
+    "id": 56,
+    "name": "brand-guidelines",
+    "description": "Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/brand-guidelines"
+  },
+  {
+    "id": 57,
+    "name": "docx",
+    "description": "Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of \"Word doc\", \"word document\", \".docx\", or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, ",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/docx"
+  },
+  {
+    "id": 58,
+    "name": "skill-vetter",
+    "description": "Security-first skill vetting for AI agents. Use before installing any skill from ClawdHub, GitHub, or other sources. Checks for red flags, permission scope, and suspicious patterns.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/skill-vetter"
+  },
+  {
+    "id": 59,
+    "name": "lobehub-skills-search-engine",
+    "description": "Your skill search engine. When you encounter a task you don't know how to do — processing PDFs, deploying to cloud, editing documents, calling unfamiliar APIs, or any specialized workflow — search this marketplace to find a skill that teaches you how. Search by keyword or category, read the skill's instructions, download and use it. Use this whenever you need to learn a new capability, find a tool integration, or discover how to accomplish an unfamiliar task.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/lobehub-skills-search-engine"
+  },
+  {
+    "id": 60,
+    "name": "vibe-coding",
+    "description": "# Vibe Coding Skill",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/vibe-coding"
+  },
+  {
+    "id": 61,
+    "name": "web-artifacts-builder",
+    "description": "Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.",
+    "category": "imported",
+    "enabled": true,
+    "source_path": "/Users/jiafei/.openclaw/openclaw/skills/web-artifacts-builder"
+  }
+]
