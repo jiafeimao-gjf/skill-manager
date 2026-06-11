@@ -7,6 +7,9 @@
           <h1>{{ skill.name }}</h1>
           <p class="skill-desc">{{ skill.description }}</p>
         </div>
+        <button class="theme-toggle" @click="toggleTheme">
+          {{ isDark ? '☀️' : '🌙' }}
+        </button>
       </div>
     </header>
 
@@ -57,10 +60,27 @@ const selectedFile = ref(null)
 const fileContent = ref('')
 const loading = ref(true)
 const error = ref('')
+const isDark = ref(true)
 
 const renderedContent = ref('')
 
 const goBack = () => router.push('/')
+
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+  document.documentElement.setAttribute('data-theme', isDark.value ? 'dark' : 'light')
+  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+}
+
+onMounted(() => {
+  const saved = localStorage.getItem('theme')
+  if (saved) {
+    isDark.value = saved === 'dark'
+    document.documentElement.setAttribute('data-theme', saved)
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark')
+  }
+})
 
 const loadSkill = async () => {
   try {
@@ -121,6 +141,7 @@ onMounted(loadSkill)
   display: flex;
   align-items: center;
   gap: 24px;
+  flex: 1;
 }
 
 .back-btn {
@@ -135,6 +156,26 @@ onMounted(loadSkill)
 
 .back-btn:hover {
   background: var(--border);
+}
+
+.skill-info {
+  flex: 1;
+}
+
+.theme-toggle {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  border-color: var(--accent);
 }
 
 .skill-info h1 {

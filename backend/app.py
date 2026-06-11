@@ -11,17 +11,56 @@ CORS(app)
 DB_FILE = 'skills.db'
 SCHEMA_FILE = 'schema.sql'
 
+FUNC_CATEGORIES = {
+    'code': ['code', 'coding', 'programming', 'debug', 'python', 'python-usage', 'skill-creator', 'vibe-dev', 'delegation', 'mcp'],
+    'writing': ['writing', 'article', 'blog', 'md', 'doc', 'document', 'pdf'],
+    'research': ['research', 'search', 'tavily', 'find', 'summarize'],
+    'image': ['image', 'photo', 'picture', 'generate-image', 'ollama-image', 'image-stitch', 't2i', 'vision', 'art', 'algorithmic-art', 'html-screenshot', 'screenshot', 'plantuml-render'],
+    'video': ['video', 'podcast', 'remotion'],
+    'audio': ['audio', 'tts', 'speech', 'voice', 'speak'],
+    'ppt': ['ppt', 'presentation', 'slides'],
+    'excel': ['excel', 'xlsx', 'spreadsheet'],
+    'automation': ['automation', 'workflow', 'agent', 'browser', 'desktop-control', 'opencli', 'cli', 'fetch', 'download', 'skill-download', 'webapp', 'testing', 'playwright'],
+    'devops': ['devops', 'deploy', 'docker', 'ci', 'vetter', 'security'],
+    'design': ['design', 'canvas', 'brand', 'theme', 'kami', 'artifact'],
+    'data': ['data', 'database', 'sql', 'memory', 'lancedb', 'math', 'plot'],
+    'communication': ['slack', 'wechat', 'internal', 'comms', 'chat', 'recap', 'evaluation', 'work', 'self', 'improvement'],
+    'learning': ['paper', 'academic', 'research', 'content'],
+}
+
 def get_db():
     conn = sqlite3.connect(DB_FILE)
     conn.row_factory = sqlite3.Row
     return conn
 
 def init_db():
-    if not os.path.exists(DB_FILE):
-        conn = get_db()
-        with open(SCHEMA_FILE, 'r') as f:
-            conn.executescript(f.read())
-        conn.close()
+    conn = get_db()
+    with open(SCHEMA_FILE, 'r') as f:
+        conn.executescript(f.read())
+    conn.close()
+
+def detect_func_category(skill_name):
+    """Detect functional category from skill name"""
+    name_lower = skill_name.lower()
+    for category, keywords in FUNC_CATEGORIES.items():
+        for keyword in keywords:
+            if keyword in name_lower:
+                return category
+    return 'other'
+
+def get_file_type(filename):
+    ext = os.path.splitext(filename)[1].lower()
+    types = {
+        '.md': 'markdown',
+        '.json': 'json',
+        '.py': 'python',
+        '.js': 'javascript',
+        '.sh': 'shell',
+        '.txt': 'text',
+        '.yml': 'yaml',
+        '.yaml': 'yaml'
+    }
+    return types.get(ext, 'unknown')
 
 def parse_skill_info(file_path):
     """Parse name and description from SKILL.md or CLAUDE.md"""
@@ -40,20 +79,6 @@ def parse_skill_info(file_path):
     except:
         return '', ''
 
-def get_file_type(filename):
-    ext = os.path.splitext(filename)[1].lower()
-    types = {
-        '.md': 'markdown',
-        '.json': 'json',
-        '.py': 'python',
-        '.js': 'javascript',
-        '.sh': 'shell',
-        '.txt': 'text',
-        '.yml': 'yaml',
-        '.yaml': 'yaml'
-    }
-    return types.get(ext, 'unknown')
-
 @app.route('/api/skills', methods=['GET'])
 def get_skills():
     conn = get_db()
@@ -67,18 +92,31 @@ def get_skills():
     conn.close()
     return jsonify([dict(s) for s in skills])
 
+@app.route('/api/categories', methods=['GET'])
+def get_categories():
+    """Get list of functional categories with counts"""
+    conn = get_db()
+    skills = conn.execute('SELECT func_category FROM skills').fetchall()
+    conn.close()
+    counts = {}
+    for s in skills:
+        cat = s['func_category'] or 'other'
+        counts[cat] = counts.get(cat, 0) + 1
+    return jsonify(counts)
+
 @app.route('/api/skills', methods=['POST'])
 def create_skill():
     data = request.json
     conn = get_db()
     try:
         cursor = conn.execute('''
-            INSERT INTO skills (name, description, category, enabled, source_path)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO skills (name, description, category, func_category, enabled, source_path)
+            VALUES (?, ?, ?, ?, ?, ?)
         ''', (
             data.get('name', ''),
             data.get('description', ''),
             data.get('category', 'general'),
+            data.get('func_category', detect_func_category(data.get('name', ''))),
             1 if data.get('enabled', True) else 0,
             data.get('source_path', '')
         ))
@@ -114,12 +152,14 @@ def update_skill(skill_id):
         SET name = COALESCE(?, name),
             description = COALESCE(?, description),
             category = COALESCE(?, category),
+            func_category = COALESCE(?, func_category),
             enabled = COALESCE(?, enabled)
         WHERE id = ?
     ''', (
         data.get('name'),
         data.get('description'),
         data.get('category'),
+        data.get('func_category'),
         1 if data.get('enabled') else 0 if data.get('enabled') is not None else None,
         skill_id
     ))
@@ -186,10 +226,12 @@ def scan_directory():
             skipped.append(skill_name)
             continue
 
+        func_cat = detect_func_category(skill_name)
+
         cursor = conn.execute('''
-            INSERT INTO skills (name, description, category, enabled, source_path)
-            VALUES (?, ?, ?, 1, ?)
-        ''', (skill_name, description[:500] if description else '', 'imported', item_path))
+            INSERT INTO skills (name, description, category, func_category, enabled, source_path)
+            VALUES (?, ?, ?, ?, 1, ?)
+        ''', (skill_name, description[:500] if description else '', 'imported', func_cat, item_path))
         skill_id = cursor.lastrowid
 
         for root, dirs, files in os.walk(item_path):
@@ -197,7 +239,6 @@ def scan_directory():
                 if fname.startswith('.'):
                     continue
                 fpath = os.path.join(root, fname)
-                rel_path = os.path.relpath(fpath, item_path)
                 file_type = get_file_type(fname)
                 conn.execute('''
                     INSERT INTO skill_files (skill_id, filename, filepath, file_type)
@@ -210,6 +251,78 @@ def scan_directory():
     conn.commit()
     conn.close()
     return jsonify({'imported': imported, 'skipped': skipped})
+
+@app.route('/api/import-single', methods=['POST'])
+def import_single_skill():
+    """Import a single skill from a directory path"""
+    data = request.json
+    skill_path = data.get('path', '')
+
+    if not skill_path or not os.path.isdir(skill_path):
+        return jsonify({'error': 'Invalid directory path'}), 400
+
+    skill_file = None
+    for fname in ['SKILL.md', 'CLAUDE.md', 'skill.md']:
+        fpath = os.path.join(skill_path, fname)
+        if os.path.exists(fpath):
+            skill_file = fpath
+            break
+
+    if not skill_file:
+        return jsonify({'error': 'No SKILL.md or CLAUDE.md found in directory'}), 400
+
+    name, description = parse_skill_info(skill_file)
+    skill_name = name if name else os.path.basename(skill_path)
+
+    conn = get_db()
+
+    existing = conn.execute('SELECT id FROM skills WHERE name = ?', (skill_name,)).fetchone()
+    if existing:
+        conn.close()
+        return jsonify({'error': f'Skill "{skill_name}" already exists', 'existing': True}), 400
+
+    func_cat = detect_func_category(skill_name)
+
+    cursor = conn.execute('''
+        INSERT INTO skills (name, description, category, func_category, enabled, source_path)
+        VALUES (?, ?, ?, ?, 1, ?)
+    ''', (skill_name, description[:500] if description else '', 'imported', func_cat, skill_path))
+    skill_id = cursor.lastrowid
+
+    for root, dirs, files in os.walk(skill_path):
+        for fname in files:
+            if fname.startswith('.'):
+                continue
+            fpath = os.path.join(root, fname)
+            file_type = get_file_type(fname)
+            conn.execute('''
+                INSERT INTO skill_files (skill_id, filename, filepath, file_type)
+                VALUES (?, ?, ?, ?)
+            ''', (skill_id, fname, fpath, file_type))
+
+    conn.commit()
+    skill = conn.execute('SELECT * FROM skills WHERE id = ?', (skill_id,)).fetchone()
+    files = conn.execute('SELECT * FROM skill_files WHERE skill_id = ?', (skill_id,)).fetchall()
+    conn.close()
+
+    return jsonify({
+        'skill': dict(skill),
+        'files': [dict(f) for f in files]
+    }), 201
+
+@app.route('/api/recategorize', methods=['POST'])
+def recategorize_all():
+    """Re-detect and update func_category for all existing skills"""
+    conn = get_db()
+    skills = conn.execute('SELECT id, name FROM skills').fetchall()
+    counts = {}
+    for s in skills:
+        new_cat = detect_func_category(s['name'])
+        conn.execute('UPDATE skills SET func_category = ? WHERE id = ?', (new_cat, s['id']))
+        counts[new_cat] = counts.get(new_cat, 0) + 1
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'Recategorized', 'counts': counts})
 
 if __name__ == '__main__':
     init_db()

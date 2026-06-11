@@ -8,17 +8,44 @@
     </div>
     <p class="card-desc">{{ skill.description || 'No description' }}</p>
     <div class="card-footer">
-      <span class="badge badge-category">{{ skill.category }}</span>
-      <span class="file-count">📁 {{ skill.file_count || 0 }} files</span>
+      <span :class="['badge', 'badge-category', 'cat-' + funcCategory]">
+        {{ funcIcon }} {{ funcCategory }}
+      </span>
+      <span class="file-count">📁 {{ skill.file_count || 0 }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   skill: { type: Object, required: true }
 })
 defineEmits(['click', 'toggle'])
+
+const funcCategory = computed(() => props.skill.func_category || 'other')
+
+const funcIcon = computed(() => {
+  const icons = {
+    code: '💻',
+    writing: '✍️',
+    research: '🔍',
+    image: '🖼️',
+    video: '🎬',
+    audio: '🔊',
+    ppt: '📊',
+    excel: '📊',
+    automation: '⚡',
+    devops: '🚀',
+    design: '🎨',
+    data: '💾',
+    communication: '💬',
+    learning: '📚',
+    other: '📦'
+  }
+  return icons[funcCategory.value] || '📁'
+})
 </script>
 
 <style scoped>
@@ -89,6 +116,21 @@ defineEmits(['click', 'toggle'])
   background: rgba(108, 92, 231, 0.2);
   color: var(--accent-hover);
 }
+
+.cat-code { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+.cat-writing { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+.cat-research { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+.cat-image { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+.cat-video { background: rgba(250, 204, 21, 0.2); color: #facc15; }
+.cat-audio { background: rgba(251, 146, 60, 0.2); color: #fb923c; }
+.cat-ppt { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+.cat-excel { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.cat-automation { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.cat-devops { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+.cat-design { background: rgba(219, 112, 219, 0.2); color: #e879f9; }
+.cat-data { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+.cat-communication { background: rgba(20, 184, 166, 0.2); color: #2dd4bf; }
+.cat-learning { background: rgba(132, 204, 22, 0.2); color: #a3e635; }
 
 .file-count {
   color: var(--text-secondary);

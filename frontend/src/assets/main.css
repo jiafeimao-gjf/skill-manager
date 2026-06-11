@@ -9,6 +9,21 @@
   --success: #10b981;
   --danger: #ef4444;
   --border: #2d2d3a;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --accent: #7c3aed;
+  --accent-hover: #9333ea;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b7280;
+  --success: #10b981;
+  --danger: #ef4444;
+  --border: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
 * {

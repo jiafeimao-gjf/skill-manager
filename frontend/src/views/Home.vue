@@ -3,15 +3,20 @@
     <header class="header">
       <div class="header-content">
         <h1>🎯 Skill Manager</h1>
-        <div class="stats">
-          <div class="stat">
-            <span class="stat-value">{{ skills.length }}</span>
-            <span class="stat-label">Total</span>
+        <div class="header-actions">
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-value">{{ skills.length }}</span>
+              <span class="stat-label">Total</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">{{ enabledCount }}</span>
+              <span class="stat-label">Enabled</span>
+            </div>
           </div>
-          <div class="stat">
-            <span class="stat-value">{{ enabledCount }}</span>
-            <span class="stat-label">Enabled</span>
-          </div>
+          <button class="theme-toggle" @click="toggleTheme">
+            {{ isDark ? '☀️' : '🌙' }}
+          </button>
         </div>
       </div>
     </header>
@@ -29,6 +34,18 @@
         </div>
         <button class="btn btn-primary" @click="showImportModal = true">
           📥 Import
+        </button>
+      </div>
+
+      <div class="category-filters">
+        <button
+          v-for="cat in categories"
+          :key="cat"
+          :class="['filter-btn', { active: selectedCategory === cat }]"
+          @click="selectedCategory = selectedCategory === cat ? '' : cat"
+        >
+          {{ getCategoryIcon(cat) }} {{ cat }}
+          <span class="filter-count">{{ getCategoryCount(cat) }}</span>
         </button>
       </div>
 
@@ -54,13 +71,17 @@
       <div v-if="showImportModal" class="modal-overlay" @click.self="showImportModal = false">
         <div class="modal">
           <h2>📥 Import Skills</h2>
+          <div class="import-tabs">
+            <button :class="{ active: importMode === 'bulk' }" @click="importMode = 'bulk'">Bulk Scan</button>
+            <button :class="{ active: importMode === 'single' }" @click="importMode = 'single'">Single Skill</button>
+          </div>
           <div class="form-group">
-            <label>Source Directory</label>
-            <input v-model="importPath" type="text" placeholder="/Users/jiafei/.openclaw/openclaw/skills">
+            <label>{{ importMode === 'bulk' ? 'Source Directory' : 'Skill Folder Path' }}</label>
+            <input v-model="importPath" type="text" :placeholder="importMode === 'bulk' ? '/Users/jiafei/.openclaw/openclaw/skills' : '/path/to/skill-folder'">
           </div>
           <div class="modal-actions">
             <button class="btn btn-secondary" @click="showImportModal = false">Cancel</button>
-            <button class="btn btn-primary" @click="importSkills">Scan & Import</button>
+            <button class="btn btn-primary" @click="importSkills">{{ importMode === 'bulk' ? 'Scan & Import' : 'Import' }}</button>
           </div>
         </div>
       </div>
@@ -80,17 +101,72 @@ const searchQuery = ref('')
 const loading = ref(true)
 const showImportModal = ref(false)
 const importPath = ref('')
+const importMode = ref('bulk')
+const isDark = ref(true)
+const selectedCategory = ref('')
+
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+  document.documentElement.setAttribute('data-theme', isDark.value ? 'dark' : 'light')
+  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+}
+
+onMounted(() => {
+  const saved = localStorage.getItem('theme')
+  if (saved) {
+    isDark.value = saved === 'dark'
+    document.documentElement.setAttribute('data-theme', saved)
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark')
+  }
+})
 
 const filteredSkills = computed(() => {
-  if (!searchQuery.value) return skills.value
-  const q = searchQuery.value.toLowerCase()
-  return skills.value.filter(s =>
-    s.name.toLowerCase().includes(q) ||
-    (s.description && s.description.toLowerCase().includes(q))
-  )
+  let result = skills.value
+  if (selectedCategory.value) {
+    result = result.filter(s => (s.func_category || 'other') === selectedCategory.value)
+  }
+  if (searchQuery.value) {
+    const q = searchQuery.value.toLowerCase()
+    result = result.filter(s =>
+      s.name.toLowerCase().includes(q) ||
+      (s.description && s.description.toLowerCase().includes(q))
+    )
+  }
+  return result
+})
+
+const categories = computed(() => {
+  const cats = [...new Set(skills.value.map(s => s.func_category || 'other'))].filter(Boolean)
+  return cats.sort()
 })
 
 const enabledCount = computed(() => skills.value.filter(s => s.enabled).length)
+
+const getCategoryIcon = (cat) => {
+  const icons = {
+    code: '💻',
+    writing: '✍️',
+    research: '🔍',
+    image: '🖼️',
+    video: '🎬',
+    audio: '🔊',
+    ppt: '📊',
+    excel: '表格',
+    automation: '⚡',
+    devops: '🚀',
+    design: '🎨',
+    data: '💾',
+    communication: '💬',
+    learning: '📚',
+    other: '📦'
+  }
+  return icons[cat] || '📁'
+}
+
+const getCategoryCount = (cat) => {
+  return skills.value.filter(s => (s.func_category || 'other') === cat).length
+}
 
 const loadSkills = async () => {
   try {
@@ -121,7 +197,11 @@ const toggleSkill = async (skill) => {
 const importSkills = async () => {
   if (!importPath.value) return
   try {
-    await axios.post('/api/scan', { source_dir: importPath.value })
+    if (importMode.value === 'bulk') {
+      await axios.post('/api/scan', { source_dir: importPath.value })
+    } else {
+      await axios.post('/api/import-single', { path: importPath.value })
+    }
     showImportModal.value = false
     importPath.value = ''
     loadSkills()
@@ -182,6 +262,28 @@ onMounted(loadSkills)
   text-transform: uppercase;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.theme-toggle {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  border-color: var(--accent);
+}
+
 .main {
   max-width: 1400px;
   margin: 0 auto;
@@ -219,6 +321,50 @@ onMounted(loadSkills)
 .search-input:focus {
   outline: none;
   border-color: var(--accent);
+}
+
+.category-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.filter-count {
+  background: rgba(255,255,255,0.2);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.filter-btn:not(.active) .filter-count {
+  background: var(--bg-secondary);
 }
 
 .loading, .empty {
@@ -260,6 +406,30 @@ onMounted(loadSkills)
 .modal h2 {
   margin-bottom: 24px;
   font-size: 20px;
+}
+
+.import-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.import-tabs button {
+  flex: 1;
+  padding: 10px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.import-tabs button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
 }
 
 .form-group {

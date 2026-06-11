@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS skills (
   name TEXT UNIQUE NOT NULL,
   description TEXT,
   category TEXT DEFAULT 'general',
+  func_category TEXT DEFAULT 'other',
   enabled INTEGER DEFAULT 1,
   source_path TEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
